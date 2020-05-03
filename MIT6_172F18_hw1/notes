@@ -1,0 +1,21 @@
+Preprocessing:
+  The C preprocessor modifies source code before it is passed to the compilation phase. 
+  * string substitution of #define macros
+  * conditionally omits sections of code
+  * processes #include directives to import entire files' worth of code
+  * strips comments from code
+
+Primitive types: 
+  You can define more complex data types by composing primitive types into a struct.
+  i.e.:
+    typedef struct {
+      long id;
+      unsigned short year;
+    } student;
+    student you;
+    you.id. = 12345
+    you.year = 5
+
+
+
+
