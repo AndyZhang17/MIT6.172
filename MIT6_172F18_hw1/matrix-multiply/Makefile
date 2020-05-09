@@ -60,6 +60,7 @@ ifeq ($(DEBUG),1)
     $(shell echo debug > .buildmode)
   endif
 else ifeq ($(ASAN),1)
+  PRODUCT := $(PRODUCT_DEBUG)
   CFLAGS := $(CFLAGS_ASAN) $(CFLAGS)
   LDFLAGS := $(LDFLAGS) -fsanitize=address
   ifneq ($(OLDMODE),asan)
