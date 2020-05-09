@@ -6,8 +6,8 @@
 SRC := testbed.c matrix_multiply.c
 
 # Set the name of your binary.  Change it if you like.
-PRODUCT := matrix_multiply
-
+PRODUCT_RELEASE := mm
+PRODUCT_DEBUG := $(PRODUCT_RELEASE)d
 ################################################################################
 # These configuration options change how your code (listed above) is compiled
 # every time you type "make".  You may have to change these values to complete
@@ -31,7 +31,7 @@ CFLAGS_DEBUG := -g -DDEBUG -O0
 # In the release version, we ask for many optimizations; -O3 sets the
 # optimization level to three.  -DNDEBUG defines the NDEBUG macro,
 # which disables assertion checks.
-CFLAGS_RELEASE := -O1 -DNDEBUG
+CFLAGS_RELEASE := -O3 -DNDEBUG
 
 # These flags are used to invoke Clang's address sanitizer.
 CFLAGS_ASAN := -O1 -g -fsanitize=address
@@ -40,7 +40,7 @@ CFLAGS_ASAN := -O1 -g -fsanitize=address
 # If you need to link against libraries, add the appropriate flags here.  By
 # default, your code is linked against the "rt" library with the flag -lrt;
 # this library is used by the timing code in the testbed.
-LDFLAGS := -lrt -flto -fuse-ld=gold
+LDFLAGS := -flto
 
 ################################################################################
 # You probably won't need to change anything below this line, but if you're
@@ -55,6 +55,7 @@ LDFLAGS := -lrt -flto -fuse-ld=gold
 OLDMODE=$(shell cat .buildmode 2> /dev/null)
 ifeq ($(DEBUG),1)
   CFLAGS := $(CFLAGS_DEBUG) $(CFLAGS)
+  PRODUCT := $(PRODUCT_DEBUG)
   ifneq ($(OLDMODE),debug)
     $(shell echo debug > .buildmode)
   endif
@@ -66,6 +67,7 @@ else ifeq ($(ASAN),1)
   endif
 else
   CFLAGS := $(CFLAGS_RELEASE) $(CFLAGS)
+  PRODUCT := $(PRODUCT_RELEASE)
   ifneq ($(OLDMODE),nodebug)
     $(shell echo nodebug > .buildmode)
   endif
@@ -78,7 +80,7 @@ all: $(PRODUCT)
 
 # This special "target" will remove the binary and all intermediate files.
 clean::
-	rm -f $(OBJ) $(PRODUCT) .buildmode \
+	rm -f $(OBJ) $(PRODUCT_RELEASE) $(PRODUCT_DEBUG) .buildmode \
         $(addsuffix .gcda, $(basename $(SRC))) \
         $(addsuffix .gcno, $(basename $(SRC))) \
         $(addsuffix .gcov, $(SRC) fasttime.h)
