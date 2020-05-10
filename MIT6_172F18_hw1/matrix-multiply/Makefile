@@ -8,6 +8,7 @@ SRC := testbed.c matrix_multiply.c
 # Set the name of your binary.  Change it if you like.
 PRODUCT_RELEASE := mm
 PRODUCT_DEBUG := $(PRODUCT_RELEASE)d
+
 ################################################################################
 # These configuration options change how your code (listed above) is compiled
 # every time you type "make".  You may have to change these values to complete
@@ -17,6 +18,9 @@ PRODUCT_DEBUG := $(PRODUCT_RELEASE)d
 # This option sets which compiler your code will be compiled with.  Likely
 # choices are icc, icpc, gcc, g++, clang
 CC := clang
+
+# flags for checking code coverage, to be added to CFLAGS and LDFLAGS
+ADDFLAGS := -frofile-arcs -ftest-coverage
 
 # These flags will be applied to your code any time it is built.
 CFLAGS := -Wall -std=c99 -D_POSIX_C_SOURCE=200809L
